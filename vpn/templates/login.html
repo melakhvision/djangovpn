@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-              rel="stylesheet">
-        <style>
-        body {
-            background-color: #f3f4f6;
-        }
-        </style>
-    </head>
-    <body class="flex items-center justify-center h-screen">
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+{% block content %}
+    <div class="flex items-center justify-center h-screen">
         <div class="bg-white p-8 rounded shadow-md w-80">
             {% if error %}<div class="mb-4 bg-red-500 text-white px-4 py-2 rounded">{{ error }}</div>{% endif %}
             <h2 class="text-2xl font-bold mb-8 text-gray-700">Login</h2>
@@ -38,5 +28,5 @@
                         class="w-full py-2 px-4 rounded bg-blue-300 hover:bg-blue-700 text-white">Login</button>
             </form>
         </div>
-    </body>
-</html>
+    </div>
+    {% endblock %}

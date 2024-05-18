@@ -3,5 +3,6 @@ channels==4.1.0
 channels_redis==4.2.0
 daphne>=4.0.0
 Twisted[http2,tls]
-uvicorn
 uvicorn[standard]
+psutil
+python-dotenv==1.0.0

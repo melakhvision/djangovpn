@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,15 +29,18 @@ SECRET_KEY = 'django-insecure-6-n7w89e6==3-cwavb=*gyld=s^ewddpd5#ncis+#4!t8tfye)
 DEBUG = True
 
 # DOMAIN like myapp.com OR IP of your server
-DOMAIN = 'localhost'
+DOMAIN = os.getenv('DOMAIN', 'localhost')
 
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8000',
+    'http://localhost:8000', f'http://{DOMAIN}', f'https://{DOMAIN}'
 ]
-# Application definition
+# Host PATH if not set correctly, download will not work
+HOST_PATH = os.getenv('HOST_PATH', BASE_DIR)
+MEDIA_PATH = f'{HOST_PATH}/media'
 
+# Application definition
 INSTALLED_APPS = [
     'daphne',
     'django.contrib.admin',

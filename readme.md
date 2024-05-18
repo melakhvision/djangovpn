@@ -14,6 +14,7 @@ python manage.py startapp vpn
 ```bash
 sudo apt update
 sudo apt install jq netcat
+sudo apt install python3-pip
 ```
 ### Enable Management
 1. edit server.conf in /etc/openvpn/server.conf and ad this line

@@ -1,97 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Dashboard</title>
-        {% load static %}
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-              rel="stylesheet">
-        <style>
-        body {
-            background-color: #f3f4f6;
-        }
-        </style>
-    </head>
-    <body>
-        <header class="bg-gray-800 text-white px-6 py-4 flex justify-between items-center">
-            <div class="text-lg">Hello, {{ user.username }}</div>
-            <a href="{% url 'logout' %}"
-               class="bg-blue-700 p-2 rounded-md hover:bg-blue-500">Logout</a>
-        </header>
-        <div class="container mx-auto px-4 py-5">
-            {% if bash_error %}<h1 class="text-2xl font-bold mb-4 bg-red-400 text-white">{{ bash_error }}</h1>{% endif %}
-            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <!-- Server Status Card -->
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h2 class="text-xl font-bold mb-4">Server Status</h2>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <header class="bg-gray-800 text-white px-6 py-4 flex justify-between items-center">
+        <div class="text-lg">Hello, {{ user.username }}</div>
+        <a href="{% url 'logout' %}"
+           class="bg-blue-700 p-2 rounded-md hover:bg-blue-500">Logout</a>
+    </header>
+    <div class="container mx-auto px-4 py-5">
+        {% if bash_error %}<h1 class="text-2xl font-bold mb-4 bg-red-400 text-white">{{ bash_error }}</h1>{% endif %}
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <!-- Server Status Card -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-xl font-bold mb-4">Server Status</h2>
+                <div class="mb-4">
+                    <div class="flex justify-between">
+                        <label for="cpu" class="block text-sm font-medium text-gray-700">Current CPU Load</label>
+                        <h2 id="h2cpu" class="text-sm font-medium text-gray-700">%</h2>
+                    </div>
+                    <progress id="cpu" class="w-full h-2" value="10" max="100"></progress>
+                </div>
+                <div>
+                    <div class="flex justify-between">
+                        <label for="ram" class="block text-sm font-medium text-gray-700">Current RAM Usage</label>
+                        <h2 id="h2ram" class="text-sm font-medium text-gray-700">%</h2>
+                    </div>
+                    <progress id="ram" class="w-full h-2" value="10" max="100"></progress>
+                </div>
+            </div>
+            <!-- Create New User Card -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-xl font-bold mb-4">Create a New User</h2>
+                {% if error %}<p class="bg-red-500 text-white">{{ error }}</p>{% endif %}
+                {% if success %}<p class="bg-green-500 text-white">{{ success }}</p>{% endif %}
+                <form method="POST" action="{% url 'dashboard' %}">
+                    {% csrf_token %}
                     <div class="mb-4">
-                        <div class="flex justify-between">
-                            <label for="cpu" class="block text-sm font-medium text-gray-700">Current CPU Load</label>
-                            <h2 id="h2cpu" class="text-sm font-medium text-gray-700">%</h2>
-                        </div>
-                        <progress id="cpu" class="w-full h-2" value="10" max="100"></progress>
+                        <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                        <input type="text"
+                               id="username"
+                               name="username"
+                               class="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                               required>
                     </div>
-                    <div>
-                        <div class="flex justify-between">
-                            <label for="ram" class="block text-sm font-medium text-gray-700">Current RAM Usage</label>
-                            <h2 id="h2ram" class="text-sm font-medium text-gray-700">%</h2>
-                        </div>
-                        <progress id="ram" class="w-full h-2" value="10" max="100"></progress>
-                    </div>
-                </div>
-                <!-- Create New User Card -->
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h2 class="text-xl font-bold mb-4">Create a New User</h2>
-                    {% if error %}<p class="bg-red-500 text-white">{{ error }}</p>{% endif %}
-                    {% if success %}<p class="bg-green-500 text-white">{{ success }}</p>{% endif %}
-                    <form method="POST" action="{% url 'dashboard' %}">
-                        {% csrf_token %}
-                        <div class="mb-4">
-                            <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-                            <input type="text"
-                                   id="username"
-                                   name="username"
-                                   class="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                   required>
-                        </div>
-                        <button type="submit"
-                                class="w-full py-2 px-4 rounded bg-blue-300 hover:bg-blue-700 text-white">
-                            Create User
-                        </button>
-                    </form>
-                </div>
+                    <button type="submit"
+                            class="w-full py-2 px-4 rounded bg-blue-300 hover:bg-blue-700 text-white">
+                        Create User
+                    </button>
+                </form>
             </div>
-            <!-- Responsive Table -->
-            <div class="overflow-x-auto mt-6">
-                <table class="w-full whitespace-nowrap">
-                    <thead>
-                        <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-50">
-                            <th class="px-4 py-3">File</th>
-                            <th class="px-4 py-3">Created</th>
-                            <th class="px-4 py-3">Status</th>
-                            <th class="px-4 py-3">Action</th>
+        </div>
+        <!-- Responsive Table -->
+        <div class="overflow-x-auto mt-6">
+            <table class="w-full whitespace-nowrap">
+                <thead>
+                    <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-50">
+                        <th class="px-4 py-3">File</th>
+                        <th class="px-4 py-3">Created</th>
+                        <th class="px-4 py-3">Status</th>
+                        <th class="px-4 py-3">Action</th>
+                        <th class="px-4 py-3">Action</th>
+                    </tr>
+                </thead>
+                {% for profile in profiles %}
+                    <tbody class="bg-white divide-y">
+                        <tr>
+                            <td class="px-4 py-3">{{ profile.ovpn }}</td>
+                            <td class="px-4 py-3">{{ profile.created_at }}</td>
+                            <td class="px-4 py-3">{{ profile.status }}</td>
+                            <td class="px-4 py-3">
+                                <a href="{% url 'delete' profile.id %}"
+                                   class="bg-red-700 p-2 rounded-md text-white hover:bg-red-500">Delete</a>
+                            </td>
+                            <td class="px-4 py-3">
+                                <a href="{{ URL }}{{ profile.ovpn }}"
+                                   download
+                                   class="bg-blue-700 p-2 rounded-md text-white hover:bg-blue-500">Download</a>
+                            </td>
                         </tr>
-                    </thead>
-                    {% for profile in profiles %}
-                        <tbody class="bg-white divide-y">
-                            <tr>
-                                <td class="px-4 py-3">
-                                    <a href="{{ URL }}{{ profile.ovpn }}" target="_blank">{{ profile.ovpn }}</a>
-                                </td>
-                                <td class="px-4 py-3">{{ profile.created_at }}</td>
-                                <td class="px-4 py-3">{{ profile.status }}</td>
-                                <td class="px-4 py-3">
-                                    <a href="{% url 'delete' profile.id %}"
-                                       class="bg-red-700 p-2 rounded-md text-white hover:bg-red-500">Delete</a>
-                                </td>
-                            </tr>
-                            <!-- ...more rows... -->
-                        </tbody>
-                    {% endfor %}
-                </table>
-            </div>
-            <!-- Load dashboard.js -->
-            <script src="{% static 'js/dashboard.js' %}"></script>
-        </body>
-    </html>
+                        <!-- ...more rows... -->
+                    </tbody>
+                {% endfor %}
+            </table>
+        </div>
+        <script src="{% static 'js/dashboard.js' %}"></script>
+    </div>
+{% endblock %}

@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
-from vpn.script.function import list_dir, create_folder, revoke_profile
+from vpn.script.function import list_dir, revoke_profile, create_profile
 from django.conf import settings
 from vpn.models import Profile
 
@@ -29,7 +29,7 @@ def dashboard(request):
             context['error'] = 'User already exists'
             return render(request, 'dashboard.html', context)
         else:
-
+            create_profile(1, name)
             Profile.objects.create(name=name)
             context['success'] = 'User created successfully'
             return render(request, 'dashboard.html', context)

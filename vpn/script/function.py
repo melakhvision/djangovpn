@@ -1,6 +1,6 @@
 # get the current path using os
 import os
-from core.settings import BASE_DIR
+from core.settings import BASE_DIR, MEDIA_PATH
 from subprocess import Popen, PIPE
 
 
@@ -37,21 +37,10 @@ def list_dir():
     return result
 
 
-def create_folder(name):
+def create_profile(index, name):
     command = [
         f"cd {BASE_DIR}/vpn/script",
-        f"./test.sh {name}"
-    ]
-    result, err = processBaseCommand(command, join=True)
-    if err:
-        return err
-    return result
-
-
-def create_profile(name):
-    command = [
-        f"cd {BASE_DIR}/vpn/script",
-        f"./create.sh {name}"
+        f"./create.sh {index} {name}"
     ]
     result, err = processBaseCommand(command, join=True)
     if err:
@@ -63,6 +52,7 @@ def revoke_profile(name):
     command = [
         f"cd {BASE_DIR}/vpn/script",
         f"./remove.sh {name}"
+        f'cp /root/{name}.ovpn {MEDIA_PATH}'
     ]
     result, err = processBaseCommand(command, join=True)
     if err:
