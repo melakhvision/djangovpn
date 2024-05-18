@@ -39,9 +39,7 @@ def list_dir():
 
 def create_profile(index, name):
     command = [
-        f"cd {BASE_DIR}/vpn/script",
-        f"./create.sh {index} {name}"
-        f'cp /root/{name}.ovpn {MEDIA_PATH}'
+        f"cd {BASE_DIR}/vpn/script && ./create.sh {index} {name} && cp -r /root/{name}.ovpn {MEDIA_PATH}"
     ]
     result, err = processBaseCommand(command, join=True)
     if err:
@@ -51,8 +49,7 @@ def create_profile(index, name):
 
 def revoke_profile(name):
     command = [
-        f"cd {BASE_DIR}/vpn/script",
-        f"./remove.sh {name}"
+        f"cd {BASE_DIR}/vpn/script && ./remove.sh {name}"
 
     ]
     result, err = processBaseCommand(command, join=True)
