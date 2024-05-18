@@ -32,11 +32,12 @@ def dashboard(request):
         query = Profile.objects.filter(name=name)
         if query:
             context['error'] = 'User already exists'
-            return render(request, 'dashboard.html', context)
+            return redirect(request, 'dashboard.html', context)
         else:
             create_profile(1, name)
             Profile.objects.create(name=name)
             context['success'] = 'User created successfully'
+            context["URL"] = f'http://{settings.DOMAIN}/media/'
             return render(request, 'dashboard.html', context)
 
 
