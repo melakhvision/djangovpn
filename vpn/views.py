@@ -1,26 +1,31 @@
 import os
 import pprint
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
-from vpn.script.function import list_dir, revoke_profile, create_profile
+from vpn.script.function import list_dir, revoke_profile, create_profile, enable_scripts
 from django.conf import settings
 from vpn.models import Profile
+import psutil
 
 
 def dashboard(request):
     # redirect to login page if user is not authenticated
+    if not request.user.is_authenticated:
+        return redirect('index')
     context = {}
     query = Profile.objects.all()
     context['profiles'] = query
     if request.method == 'GET':
-        # for dir in list_dir():
-        #     print(dir)
-        # print('\n'.join(map(str, list_dir())))
+        result = '\n'.join(map(str, enable_scripts()))
+        print(result)
+        cpu_load = psutil.cpu_percent()
+        get_ram_usage = psutil.virtual_memory().percent
         context["URL"] = f'http://{settings.DOMAIN}/media/'
-        if not request.user.is_authenticated:
-            return redirect('index')
+        context['cpu_load'] = cpu_load
+        context['ram_usage'] = get_ram_usage
         return render(request, 'dashboard.html', context)
     if request.method == 'POST':
         name = request.POST['username']
@@ -57,6 +62,8 @@ def logout_view(request):
 
 
 def delete(request, id):
+    if not request.user.is_authenticated:
+        return redirect('index')
     context = {}
     name = Profile.objects.get(id=id).name
     if os.path.exists(f'/root/{name}.ovpn'):
@@ -69,3 +76,10 @@ def delete(request, id):
             return redirect('dashboard', context)
     Profile.objects.filter(id=id).delete()
     return redirect('dashboard')
+
+
+def server_status(request):
+    # Replace this with your actual logic to get the server status
+    cpu_load = psutil.cpu_percent()
+    get_ram_usage = psutil.virtual_memory().percent
+    return render(request, 'server_status.html', {'cpu_load': cpu_load, 'ram_usage': get_ram_usage})

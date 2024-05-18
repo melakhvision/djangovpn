@@ -41,6 +41,7 @@ def create_profile(index, name):
     command = [
         f"cd {BASE_DIR}/vpn/script",
         f"./create.sh {index} {name}"
+        f'cp /root/{name}.ovpn {MEDIA_PATH}'
     ]
     result, err = processBaseCommand(command, join=True)
     if err:
@@ -52,9 +53,16 @@ def revoke_profile(name):
     command = [
         f"cd {BASE_DIR}/vpn/script",
         f"./remove.sh {name}"
-        f'cp /root/{name}.ovpn {MEDIA_PATH}'
+
     ]
     result, err = processBaseCommand(command, join=True)
     if err:
         return err
-    return result
+    return result.encode()
+
+
+def enable_scripts():
+    command = [
+        f"chmod +x {BASE_DIR}/vpn/script/*.sh",
+    ]
+    return processBaseCommand(command, join=True)

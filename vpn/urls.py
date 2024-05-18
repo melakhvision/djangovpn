@@ -12,5 +12,6 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('logout/', views.logout_view, name='logout'),
     # path('create_user/', views.create_user, name='create_user'),
-    path('delete/<int:id>/', views.delete, name='delete')
+    path('delete/<int:id>/', views.delete, name='delete'),
+    path('server_status/', views.server_status, name='server_status')
 ]

@@ -7,27 +7,11 @@
         <a href="{% url 'logout' %}"
            class="bg-blue-700 p-2 rounded-md hover:bg-blue-500">Logout</a>
     </header>
-    <div class="container mx-auto px-4 py-5">
+    <div class="container max-w-5xl mx-auto px-4 py-5">
         {% if bash_error %}<h1 class="text-2xl font-bold mb-4 bg-red-400 text-white">{{ bash_error }}</h1>{% endif %}
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
             <!-- Server Status Card -->
-            <div class="bg-white rounded-lg shadow p-6">
-                <h2 class="text-xl font-bold mb-4">Server Status</h2>
-                <div class="mb-4">
-                    <div class="flex justify-between">
-                        <label for="cpu" class="block text-sm font-medium text-gray-700">Current CPU Load</label>
-                        <h2 id="h2cpu" class="text-sm font-medium text-gray-700">%</h2>
-                    </div>
-                    <progress id="cpu" class="w-full h-2" value="10" max="100"></progress>
-                </div>
-                <div>
-                    <div class="flex justify-between">
-                        <label for="ram" class="block text-sm font-medium text-gray-700">Current RAM Usage</label>
-                        <h2 id="h2ram" class="text-sm font-medium text-gray-700">%</h2>
-                    </div>
-                    <progress id="ram" class="w-full h-2" value="10" max="100"></progress>
-                </div>
-            </div>
+            {% include 'server_status.html' %}
             <!-- Create New User Card -->
             <div class="bg-white rounded-lg shadow p-6">
                 <h2 class="text-xl font-bold mb-4">Create a New User</h2>
@@ -83,6 +67,8 @@
                 {% endfor %}
             </table>
         </div>
-        <script src="{% static 'js/dashboard.js' %}"></script>
+        <script src="https://unpkg.com/htmx.org@1.9.12"
+                integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2"
+                crossorigin="anonymous"></script>
     </div>
 {% endblock %}

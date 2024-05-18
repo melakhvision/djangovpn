@@ -37,12 +37,12 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000', f'http://{DOMAIN}', f'https://{DOMAIN}'
 ]
 # Host PATH if not set correctly, download will not work
-HOST_PATH = os.getenv('HOST_PATH', BASE_DIR)
+HOST_PATH = os.getenv('HOST_PATH')
 MEDIA_PATH = f'{HOST_PATH}/media'
 
 # Application definition
 INSTALLED_APPS = [
-    'daphne',
+    # 'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

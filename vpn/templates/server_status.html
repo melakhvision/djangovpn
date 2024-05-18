@@ -1,0 +1,22 @@
+<!-- Server Status Card -->
+<div class="bg-white rounded-lg shadow p-6" id="server-status">
+    <h2 class="text-xl font-bold mb-4">Server Status</h2>
+    <div hx-get="/server_status"
+         hx-trigger="every 6s"
+         hx-target="#server-status">
+        <div class="mb-4">
+            <div class="flex justify-between">
+                <label for="cpu" class="block text-sm font-medium text-gray-700">Current CPU Load</label>
+                <h2 id="cpu" class="text-sm font-medium text-gray-700">{{ cpu_load }}%</h2>
+            </div>
+            <progress id="cpu" class="w-full h-2" value="{{ cpu_load }}" max="100">%</progress>
+        </div>
+        <div>
+            <div class="flex justify-between">
+                <label for="ram" class="block text-sm font-medium text-gray-700">Current RAM Usage</label>
+                <h2 id="h2ram" class="text-sm font-medium text-gray-700">{{ ram_usage }}%</h2>
+            </div>
+            <progress id="ram" class="w-full h-2" value="{{ ram_usage }}" max="100"></progress>
+        </div>
+    </div>
+</div>
