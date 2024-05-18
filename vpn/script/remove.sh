@@ -11,6 +11,7 @@ chmod 644 /etc/openvpn/crl.pem
 find /home/ -maxdepth 2 -name "$CLIENT.ovpn" -delete
 rm -f "/root/$CLIENT.ovpn"
 sed -i "/^$CLIENT,.*/d" /etc/openvpn/ipp.txt
+rm -rf "/var/www/html/media/$CLIENT.ovpn"
 cp /etc/openvpn/easy-rsa/pki/index.txt{,.bk}
 
 echo ""
