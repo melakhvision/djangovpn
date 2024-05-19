@@ -19,8 +19,6 @@ def dashboard(request):
     query = Profile.objects.all()
     context['profiles'] = query
     if request.method == 'GET':
-        result = '\n'.join(map(str, enable_scripts()))
-        print(result)
         cpu_load = psutil.cpu_percent()
         get_ram_usage = psutil.virtual_memory().percent
         context["URL"] = f'http://{settings.DOMAIN}/media/'

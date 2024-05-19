@@ -33,3 +33,9 @@ sudo systemctl restart openvpn@server
 telnet localhost 7505
 status
 ```
+
+## Failban to prevent some hackers
+
+```bash
+fail2ban-client -vvv set JAIL banip WW.XX.YY.ZZ
+```
