@@ -11,8 +11,9 @@ def processBaseCommand(command, join=False):
     if join:
         return Popen(
             "/bin/bash",
-            shell=False,
+            shell=True,
             universal_newlines=True,
+            text=True,
             stdin=PIPE,
             stdout=PIPE,
             stderr=PIPE,
@@ -38,12 +39,15 @@ def list_dir():
 
 
 def create_profile(index, name):
+    print(f"the name of the profile is {name}")
     command = [
-        f"cd {BASE_DIR}/vpn/script && ./create.sh {index} {name} && cp /root/{name}.ovpn {MEDIA_PATH}"
+        # f"cd {BASE_DIR}/vpn/script && ./create.sh {index} {name} "
+        f"cd {BASE_DIR}/vpn/script &&  ./copyprofile.sh {name}"
     ]
     result, err = processBaseCommand(command, join=True)
     if err:
         return err
+    print(result)
     return result
 
 
@@ -63,3 +67,13 @@ def enable_scripts():
         f"chmod +x {BASE_DIR}/vpn/script/*.sh",
     ]
     return processBaseCommand(command, join=True)
+
+
+def ban_ip(ip):
+    command = [
+        f"sudo ufw insert 1 deny from {ip} to any port 80"
+    ]
+    result, err = processBaseCommand(command, join=True)
+    if err:
+        return err
+    return result

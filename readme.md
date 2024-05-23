@@ -13,7 +13,8 @@ python manage.py startapp vpn
 
 ```bash
 sudo apt update
-sudo apt install jq netcat
+sudo apt install jq netcat 
+sudo apt install expect
 sudo apt install python3-pip
 ```
 ### Enable Management
@@ -34,8 +35,3 @@ telnet localhost 7505
 status
 ```
 
-## Failban to prevent some hackers
-
-```bash
-fail2ban-client -vvv set JAIL banip WW.XX.YY.ZZ
-```

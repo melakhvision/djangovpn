@@ -26,3 +26,28 @@ class Profile(models.Model):
 
     class Meta:
         ordering = ['created_at']
+
+
+class IP(models.Model):
+    ip = models.GenericIPAddressField(unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.ip
+
+    class Meta:
+        ordering = ['created_at']
+
+
+class BannedIP(models.Model):
+    ip = models.GenericIPAddressField(unique=True)
+    banned_at = models.DateTimeField(
+        auto_now_add=False, default=None, blank=True, null=True)
+    number_of_bad_attempts = models.IntegerField(default=0)
+    banned = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.ip
+
+    class Meta:
+        ordering = ['banned_at']

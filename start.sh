@@ -12,4 +12,4 @@ done
 
 # Start the Django server
 #python3 manage.py runserver
-daphne -t 60 --application-close-timeout 60 core.asgi:application
+# daphne -t 60 --application-close-timeout 60 core.asgi:application

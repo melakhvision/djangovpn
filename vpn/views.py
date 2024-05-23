@@ -1,11 +1,7 @@
 import os
-import pprint
-from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
-from vpn.script.function import list_dir, revoke_profile, create_profile, enable_scripts
+from vpn.script.function import revoke_profile, create_profile, enable_scripts
 from django.conf import settings
 from vpn.models import Profile
 import psutil

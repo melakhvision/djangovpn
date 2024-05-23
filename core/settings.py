@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-6-n7w89e6==3-cwavb=*gyld=s^ewddpd5#ncis+#4!t8tfye)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', True)
+DEBUG = os.getenv('DEBUG', False)
 
 # DOMAIN like myapp.com OR IP of your server
 DOMAIN = os.getenv('DOMAIN', 'localhost')
@@ -143,14 +143,3 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-# settings.py only for multiple layer and scalling
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             'hosts': [('127.0.0.1', 6379)],
-#         },
-#     },
-# }

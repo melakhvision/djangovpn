@@ -1,11 +1,12 @@
-OpenVPN CLIENT LIST
-Updated,2024-05-16 14:31:05
-Common Name,Real Address,Bytes Received,Bytes Sent,Connected Since
-abderrahim,154.124.54.180:56059,144045,211991,2024-05-16 14:30:17
-ROUTING TABLE
-Virtual Address,Common Name,Real Address,Last Ref
-10.8.0.2,abderrahim,154.124.54.180:56059,2024-05-16 14:31:05
 
+#!/usr/bin/env bash
 
-admin
-admin@12345
+# The argument to the script
+arg=$1
+
+/usr/bin/expect <<EOD
+spawn your_command_here
+expect "prompt from your command"
+send "$arg\r"
+EOD
+expect eof

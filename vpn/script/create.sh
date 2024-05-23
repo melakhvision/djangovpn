@@ -1,22 +1,12 @@
-#!/usr/bin/expect
+#!/bin/bash
 
-# Define the answers for the first two questions
-set actionIndex [lindex $argv 0]
-set profileName [lindex $argv 1]
+CLIENT=$0
+export CLIENT=$CLIENT
 
-# Start the script
-spawn /root/openvpn-install.sh
-# Expect the first question and send the answer
-expect "What do you want to do?"
-send "$actionIndex\r"
+AUTO_INSTALL=y PASS=1 CLIENT=$CLIENT ./roo/openvpn-install.sh
 
-# Expect the second question and send the answer
-expect "Tell me a name for the client"
-send "$profileName\r"
+## COPY PORFILE TO MEDIA TO MAKE IT ACCESSIBLE
+cp -r /root/$CLIENT.ovpn /var/www/html/media/$CLIENT.ovpn
 
-# Expect the third question and send Enter
-expect "*third parameter:*"
-send "\r"
-
-# Wait for the script to finish
-expect eof
+## RESET CLIENT TO NULL
+export CLIENT=

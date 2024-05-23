@@ -18,4 +18,5 @@ class LogIPMiddleware:
                 ip = request.META.get('REMOTE_ADDR')
             self.logger.warning(
                 f'404 error encountered by user with IP address: {ip}')
+
         return response
