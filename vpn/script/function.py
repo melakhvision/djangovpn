@@ -2,6 +2,7 @@
 import os
 from core.settings import BASE_DIR, MEDIA_PATH
 from subprocess import Popen, PIPE
+import subprocess
 
 
 print(BASE_DIR)
@@ -9,24 +10,12 @@ print(BASE_DIR)
 
 def processBaseCommand(command, join=False):
     if join:
-        return Popen(
-            "/bin/bash",
-            shell=True,
-            universal_newlines=True,
-            text=True,
-            stdin=PIPE,
-            stdout=PIPE,
-            stderr=PIPE,
-        ).communicate("\n".join(command))
-    else:
-        return Popen(
-            "/bin/bash",
-            shell=False,
-            universal_newlines=True,
-            stdin=PIPE,
-            stdout=PIPE,
-            stderr=PIPE,
-        ).communicate(command)
+        command = ' && '.join(command)
+        process = subprocess.run(
+            command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if process.returncode != 0:
+            return process.stdout.decode(), process.stderr.decode()
+        return process.stdout.decode(), None
 
 
 def list_dir():
@@ -45,6 +34,7 @@ def create_profile(name):
     ]
     result, err = processBaseCommand(command, join=True)
     if err:
+        print(f"an error occured : {err}")
         return err
     return None
 

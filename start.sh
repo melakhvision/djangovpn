@@ -1,5 +1,3 @@
-#!/bin/bash
-
 #!/bin/sh
 
 # Start Gunicorn in the background
