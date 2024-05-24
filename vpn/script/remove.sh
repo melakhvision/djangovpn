@@ -1,6 +1,6 @@
 #!/bin/bash
 ## remove a certificate and ovpn profile
-CLIENT=$0
+CLIENT=$1
 
 cd /etc/openvpn/easy-rsa/ || return
 ./easyrsa --batch revoke "$CLIENT"
