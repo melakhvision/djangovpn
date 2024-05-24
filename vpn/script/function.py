@@ -38,17 +38,15 @@ def list_dir():
     return result
 
 
-def create_profile(index, name):
+def create_profile(name):
     print(f"the name of the profile is {name}")
     command = [
-        # f"cd {BASE_DIR}/vpn/script && ./create.sh {index} {name} "
-        f"cd {BASE_DIR}/vpn/script &&  ./copyprofile.sh {name}"
+        f"cd {BASE_DIR}/vpn/script && ./create.sh {name}"
     ]
     result, err = processBaseCommand(command, join=True)
     if err:
         return err
-    print(result)
-    return result
+    return None
 
 
 def revoke_profile(name):

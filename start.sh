@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Replace 'yourscript.py' with the path to your script
-# check if all .sh file in the script folder has the execute permission
-# if not, add the execute permission
-# if yes, start the Django server
-for file in /var/www/html/vpn/script/*.sh; do
-    if [ ! -x "$file" ]; then
-        chmod +x "$file"
-    fi
+#!/bin/sh
+
+# Start Gunicorn in the background
+python3 -m gunicorn --workers=2 --bind 0.0.0.0:8000 --timeout 60 core.wsgi &
+
+# Check if Gunicorn is available
+while ! curl -s http://localhost:8000/ >/dev/null; do
+    echo "Waiting for Gunicorn to be available..."
+    sleep 1
 done
 
-# Start the Django server
-#python3 manage.py runserver
-# daphne -t 60 --application-close-timeout 60 core.asgi:application
+# Start Nginx
+nginx -g "daemon off;"

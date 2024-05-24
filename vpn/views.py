@@ -28,7 +28,10 @@ def dashboard(request):
             context['error'] = 'User already exists'
             return redirect(request, 'dashboard.html', context)
         else:
-            create_profile(1, name)
+            error = create_profile(name)
+            if error is not None:
+                context['error'] = "couldn't create a profile an error occured"
+                return render(request, 'dashboard.html', context)
             Profile.objects.create(name=name)
             context['success'] = 'User created successfully'
             context["URL"] = f'http://{settings.DOMAIN}/media/'
